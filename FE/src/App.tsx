@@ -6,6 +6,7 @@ import './App.css'
 function App() {
   const [messages, setMessages] = useState(['hi there','heloo'])
   const wsReff = useRef();
+  const inputReff = useRef()
   useEffect(()=>{
     const ws = new WebSocket('ws://localhost:8080')
 
@@ -38,9 +39,9 @@ function App() {
           {messages.map(mes => <div className='m-8'><span className='bg-white text-black rounded p-4'>{mes}</span></div>)}
         </div>
         <div className='w-full bg-white flex'>
-          <input id='text' className='flex-1 p-4 bg-white' type="text" placeholder='prompt' />
+          <input ref={inputReff} id='text' className='flex-1 p-4 bg-white' type="text" placeholder='prompt' />
           <button  onClick={()=>{
-            const message = document.getElementById('text').value;
+            const message = inputReff.current?.value;
             wsReff.current.send(JSON.stringify({
               type:'chat',
               payload: {
